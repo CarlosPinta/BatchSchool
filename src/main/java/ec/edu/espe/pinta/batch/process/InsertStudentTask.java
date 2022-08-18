@@ -1,5 +1,6 @@
 package ec.edu.espe.pinta.batch.process;
 
+import ec.edu.espe.pinta.batch.model.Student;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.StepExecution;
@@ -29,6 +30,8 @@ public class InsertStudentTask  implements Tasklet, StepExecutionListener {
 
     @Override
     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
-        return null;
+        Student Student = this.restTemplate.getForObject(
+                "http://localhost:8080/students/", Student.class);
+        return RepeatStatus.FINISHED;
     }
 }

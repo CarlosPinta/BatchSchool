@@ -1,6 +1,8 @@
 package ec.edu.espe.pinta.batch.config;
 
 import ec.edu.espe.pinta.batch.process.AsignStudentParalelo;
+import ec.edu.espe.pinta.batch.process.GenerateListTask;
+import ec.edu.espe.pinta.batch.process.InsertStudentTask;
 import lombok.AllArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -30,8 +32,24 @@ public class JobConfig {
     @Bean
     protected Step accountAccrualTask() {
         return steps
-                .get("accountAccrualTask")
+                .get("asignStudentParalelo")
                 .tasklet(new AsignStudentParalelo(this.restTemplate))
+                .build();
+    }
+
+    @Bean
+    protected Step generateListTask() {
+        return steps
+                .get("generateListTask")
+                .tasklet(new GenerateListTask(this.restTemplate))
+                .build();
+    }
+
+    @Bean
+    protected Step insertStudentTask() {
+        return steps
+                .get("insertStudentTask")
+                .tasklet(new InsertStudentTask(this.restTemplate))
                 .build();
     }
 
